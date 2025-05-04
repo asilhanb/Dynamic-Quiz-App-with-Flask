@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Liderlik Tablosu{% endblock %}
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <h2 class="text-center text-primary mb-4">🏆 Liderlik Tablosu</h2>
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Kullanıcı</th>
+              <th>Puan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for name, score in records %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ name }}</td>
+                <td>{{ score }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Sınav Uygulaması{% endblock %}</title>
+
+  <!-- Bootstrap 5 CSS + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #3366ff;
+      --primary-alt: #2575fc;
+      --navbar-gradient: linear-gradient(90deg, var(--primary), var(--primary-alt));
+      --bg-light: #f8f9fa;
+      --card-radius: 1rem;
+    }
+
+    /* Genel düzen */
+    body {
+      background-color: var(--bg-light);
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    /* Sticky Gradient Navbar */
+    .navbar {
+      background: var(--navbar-gradient);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .navbar .navbar-brand {
+      font-size: 1.5rem;
+    }
+    .navbar .nav-link {
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+      color: #fff;
+    }
+    .navbar-toggler {
+      border-color: rgba(255,255,255,0.5);
+    }
+    .navbar-toggler-icon {
+      filter: invert(1);
+    }
+
+    /* Ana içerik */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .inner-container {
+      width: 100%;
+      max-width: 720px;
+    }
+
+    /* Kart stili */
+    .card {
+      border: none;
+      border-radius: var(--card-radius);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    /* Gradient Buton */
+    .btn-primary {
+      background: var(--navbar-gradient);
+      border: none;
+      border-radius: 50px;
+      padding: 0.75rem 2rem;
+      transition: background .2s, transform .2s;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(90deg, var(--primary-alt), var(--primary));
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      background-color: #fff;
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      box-shadow: 0 -2px 4px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('exam') }}">
+        <i class="bi-rocket-fill"></i> SınavApp
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link{% if request.endpoint=='exam' %} active{% endif %}"
+               href="{{ url_for('exam') }}">
+              <i class="bi-pencil-fill"></i> Sınava Başla
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link{% if request.endpoint=='leaderboard' %} active{% endif %}"
+               href="{{ url_for('leaderboard') }}">
+              <i class="bi-award-fill"></i> Liderlik Tablosu
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="inner-container">
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Asilhan Boynukisa 
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
