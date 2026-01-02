@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa - Python Quiz Uygulaması{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h2>Python Pro Quiz Uygulamasına Hoş Geldiniz!</h2>
+    
+    <div class="user-form">
+        <h3>Kullanıcı Adınızı Girin</h3>
+        <form method="POST" action="{{ url_for('set_username') }}">
+            <input type="text" name="username" placeholder="Kullanıcı adınızı girin" required>
+            <button type="submit">Kaydet</button>
+        </form>
+        {% if session.get('username') %}
+            <p class="current-user">Mevcut kullanıcı: <strong>{{ session.get('username') }}</strong></p>
+        {% endif %}
+    </div>
+
+    <div class="info-section">
+        <h3>Sınav Hakkında</h3>
+        <p>Bu sınav, Python programlama dilinin çeşitli alanlarını kapsamaktadır:</p>
+        <ul>
+            <li>Python ile sohbet botu otomasyonu (Discord.py)</li>
+            <li>Python ile web geliştirme (Flask)</li>
+            <li>Python ile yapay zeka geliştirme</li>
+            <li>Bilgisayar görüşü (Computer Vision - TensorFlow, ImageAI)</li>
+            <li>Doğal Dil İşleme (Natural Language Processing - BeautifulSoup, NLTK)</li>
+        </ul>
+        <p>Sınavı istediğiniz kadar tekrar edebilirsiniz. En yüksek puanınız kaydedilecektir.</p>
+    </div>
+
+    <div class="action-buttons">
+        <a href="{{ url_for('quiz') }}" class="btn btn-primary">Sınava Başla</a>
+        <a href="{{ url_for('image_detection') }}" class="btn btn-secondary">Görsel Algılama</a>
+    </div>
+</div>
+{% endblock %}
+

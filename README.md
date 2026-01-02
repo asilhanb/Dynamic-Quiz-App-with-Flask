@@ -1,40 +1,82 @@
-🎯 Project Purpose
-This project is a modern, user-friendly quiz application built with Python and Flask, allowing students, colleagues, or followers to quickly create and take online exams.
+# Python Pro Quiz Uygulaması
 
-🚀 Features
-Dynamic Quiz Form
+Flask ve veritabanı kullanarak geliştirilmiş, gençlere yönelik dinamik bir sınav web sitesi.
 
-Automatically lists questions stored in the database
+## Özellikler
 
-Multiple-choice structure with 4 options per question
+- **Sınav Sistemi**: Python'ın çeşitli kütüphaneleri hakkında en az 5 soru içeren sınav
+- **Kullanıcı Yönetimi**: Kullanıcı adı ile giriş ve puan takibi
+- **Puan Sistemi**: Son puan ve en yüksek puan gösterimi
+- **Görsel Algılama**: ImageAI Tiny YOLO modeli ile nesne tespiti
+- **Veritabanı**: SQLite veritabanı ile kullanıcı, sınav sonuçları ve görsel algılama kayıtları
 
-User Management
+## Kurulum
 
-Basic session handling via username
+### Windows'ta Kurulum
 
-Tracks each user’s “last score” and “highest score”
+Python'un tam yolunu kullanarak paketleri kurun:
 
-Leaderboard
+```powershell
+C:\Users\Asilhan\AppData\Local\Python\bin\python.exe -m pip install -r requirements.txt
+```
 
-Displays all users’ top scores in descending order
+veya hazır script'i kullanın:
+```powershell
+.\KUR.bat
+```
 
-Responsive & Modern UI
+### Alternatif: PATH'e Ekleme
 
-Mobile/desktop-friendly design with Bootstrap 5
+Python'u PATH'e eklemek için:
+1. Windows tuşuna basın ve "environment variables" yazın
+2. "Path" değişkenine şunu ekleyin: `C:\Users\Asilhan\AppData\Local\Python\bin`
+3. PowerShell'i yeniden başlatın
 
-Gradient buttons, shadowed cards, icon set
+Sonra normal komutları kullanabilirsiniz:
+```bash
+python -m pip install -r requirements.txt
+```
 
-🛠️ Technologies Used
-Python 3
+2. ImageAI model dosyasını indirin (opsiyonel):
+   - Tiny YOLO modeli için `yolo-tiny.h5` dosyasını proje klasörüne ekleyin
+   - Model dosyası yoksa, uygulama mock detection kullanacaktır
 
-Flask (Web framework)
+3. Uygulamayı çalıştırın:
+```bash
+python app.py
+```
 
-Flask-SQLAlchemy (ORM with SQLite)
+4. Tarayıcınızda `http://localhost:5000` adresine gidin
 
-SQLite (Local database)
+## PythonAnywhere Deployment
 
-Jinja2 (Template engine)
+1. PythonAnywhere hesabınıza giriş yapın
+2. Files sekmesinden proje dosyalarınızı yükleyin
+3. Web sekmesinde yeni bir web app oluşturun
+4. WSGI configuration dosyasını düzenleyin
+5. Static files mapping ekleyin: `/static/` -> `/home/username/pro/static/`
+6. Virtualenv'i ayarlayın ve requirements.txt'yi yükleyin
 
-Bootstrap 5 & Bootstrap Icons (Responsive, modern UI)
+## Veritabanı
 
-HTML5, CSS3, JavaScript
+Uygulama ilk çalıştırıldığında otomatik olarak `quiz_app.db` SQLite veritabanı oluşturulur.
+
+### Tablolar:
+- **User**: Kullanıcı bilgileri ve en yüksek puanları
+- **QuizResult**: Sınav sonuçları
+- **ImageDetection**: Görsel algılama sonuçları
+
+## Sınav Konuları
+
+1. Python ile sohbet botu otomasyonu (Discord.py)
+2. Python ile web geliştirme (Flask)
+3. Python ile yapay zeka geliştirme
+4. Bilgisayar görüşü (Computer Vision - TensorFlow, ImageAI)
+5. Doğal Dil İşleme (Natural Language Processing - BeautifulSoup, NLTK)
+
+## Notlar
+
+- ImageAI modeli yüklenemezse, uygulama mock detection kullanır
+- Tüm görseller `static/uploads/` klasörüne kaydedilir
+- Kullanıcılar sınavı istediği kadar tekrar alabilir
+

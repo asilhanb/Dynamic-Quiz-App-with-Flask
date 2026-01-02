@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Görsel Algılama - Python Quiz Uygulaması{% endblock %}
+
+{% block content %}
+<div class="image-detection-section">
+    <h2>Görsel Algılama</h2>
+    <p>Bu sayfada görsel yükleyerek nesne tespiti yapabilirsiniz. ImageAI Tiny YOLO modeli kullanılmaktadır.</p>
+
+    <div class="upload-section">
+        <h3>Görsel Yükle</h3>
+        <form id="upload-form" enctype="multipart/form-data">
+            <div class="file-input-wrapper">
+                <input type="file" id="image-input" name="image" accept="image/*" required>
+                <label for="image-input" class="file-label">Görsel Seç</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Yükle ve Algıla</button>
+        </form>
+    </div>
+
+    <div id="result-section" class="result-section" style="display: none;">
+        <h3>Algılama Sonucu</h3>
+        <div id="result-content"></div>
+    </div>
+
+    {% if recent_detections %}
+    <div class="recent-detections">
+        <h3>Son Algılamalar</h3>
+        <div class="detection-list">
+            {% for detection in recent_detections %}
+            <div class="detection-item">
+                <div class="detection-image">
+                    <img src="{{ url_for('static', filename='uploads/' + detection.image_path) }}" alt="Detected image">
+                </div>
+                <div class="detection-info">
+                    <p><strong>Sınıf:</strong> {{ detection.detected_class }}</p>
+                    <p><strong>Güven Skoru:</strong> {{ "%.2f"|format(detection.confidence) }}%</p>
+                    <p><strong>Tarih:</strong> {{ detection.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.getElementById('upload-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    const fileInput = document.getElementById('image-input');
+    
+    if (!fileInput.files[0]) {
+        alert('Lütfen bir görsel seçin!');
+        return;
+    }
+    
+    formData.append('image', fileInput.files[0]);
+    
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'İşleniyor...';
+    
+    try {
+        const response = await fetch('/upload_image', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            const resultSection = document.getElementById('result-section');
+            const resultContent = document.getElementById('result-content');
+            
+            resultContent.innerHTML = `
+                <div class="detection-result">
+                    <div class="result-image">
+                        <img src="${data.detected_image_path ? '/static/uploads/' + data.detected_image_path : '/static/uploads/' + data.image_path}" alt="Detected image">
+                    </div>
+                    <div class="result-details">
+                        <p><strong>Tespit Edilen Sınıf:</strong> <span class="detected-class">${data.detected_class}</span></p>
+                        <p><strong>Güven Skoru:</strong> <span class="confidence-score">${data.confidence}%</span></p>
+                        ${data.note ? '<p class="note">' + data.note + '</p>' : ''}
+                    </div>
+                </div>
+            `;
+            
+            resultSection.style.display = 'block';
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Reload page after 2 seconds to show updated recent detections
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            alert('Hata: ' + (data.error || 'Bilinmeyen bir hata oluştu'));
+        }
+    } catch (error) {
+        alert('Hata: ' + error.message);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Yükle ve Algıla';
+    }
+});
+</script>
+{% endblock %}
+

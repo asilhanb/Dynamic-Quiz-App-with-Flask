@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Sınav Sonucu - Python Quiz Uygulaması{% endblock %}
+
+{% block content %}
+<div class="result-section">
+    <h2>Sınav Sonucu</h2>
+    
+    <div class="score-summary">
+        <div class="score-card">
+            <h3>Puanınız</h3>
+            <div class="score-number">{{ score }} / {{ total }}</div>
+            <div class="score-percentage">{{ "%.1f"|format((score / total * 100)) }}%</div>
+        </div>
+        
+        <div class="score-info">
+            <p><strong>Son Puanınız:</strong> {{ score }} / {{ total }}</p>
+            <p><strong>En Yüksek Puanınız:</strong> {{ user_highest }} / {{ total }}</p>
+            {% if score == user_highest and score == total %}
+                <p class="success-message">🎉 Tebrikler! Mükemmel bir sonuç aldınız!</p>
+            {% elif score == user_highest %}
+                <p class="success-message">🎉 Yeni rekor! En yüksek puanınızı kırdınız!</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="detailed-results">
+        <h3>Detaylı Sonuçlar</h3>
+        {% for result in results %}
+        <div class="result-item {% if result.correct %}correct{% else %}incorrect{% endif %}">
+            <div class="result-header">
+                <span class="result-icon">{% if result.correct %}✓{% else %}✗{% endif %}</span>
+                <span class="result-status">{% if result.correct %}Doğru{% else %}Yanlış{% endif %}</span>
+            </div>
+            <p class="result-question">{{ result.question }}</p>
+            <div class="result-answers">
+                <p><strong>Sizin Cevabınız:</strong> <span class="user-answer">{{ result.user_answer }}</span></p>
+                <p><strong>Doğru Cevap:</strong> <span class="correct-answer">{{ result.correct_answer }}</span></p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="action-buttons">
+        <a href="{{ url_for('quiz') }}" class="btn btn-primary">Sınavı Tekrar Al</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Ana Sayfaya Dön</a>
+    </div>
+</div>
+{% endblock %}
+

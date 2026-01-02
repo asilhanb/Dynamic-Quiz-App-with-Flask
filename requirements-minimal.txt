@@ -1,0 +1,9 @@
+# Minimal kurulum - Sadece temel paketler (ImageAI olmadan çalışır)
+Flask>=2.3.0
+Flask-SQLAlchemy>=3.0.0
+Werkzeug>=2.3.0
+Pillow>=9.0.0
+numpy>=1.21.0
+
+
+

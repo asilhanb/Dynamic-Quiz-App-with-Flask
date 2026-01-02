@@ -1,0 +1,14 @@
+# Tam kurulum - ImageAI ve TensorFlow dahil
+Flask>=2.3.0
+Flask-SQLAlchemy>=3.0.0
+Werkzeug>=2.3.0
+Pillow>=9.0.0
+numpy>=1.21.0
+
+# Görsel algılama için (opsiyonel - büyük paketler)
+# Bu paketleri kurmak istemiyorsanız requirements-minimal.txt kullanın
+imageai>=2.1.6
+tensorflow>=2.10.0,<2.16.0
+
+
+

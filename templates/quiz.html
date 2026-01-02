@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Sınav - Python Quiz Uygulaması{% endblock %}
+
+{% block content %}
+<div class="quiz-section">
+    <h2>Python Pro Sınavı</h2>
+    <p class="quiz-info">Toplam {{ questions|length }} soru bulunmaktadır. Her soruyu dikkatlice okuyun ve doğru cevabı seçin.</p>
+
+    <form method="POST" action="{{ url_for('submit_quiz') }}" id="quiz-form">
+        {% for question in questions %}
+        <div class="question-block">
+            <div class="question-header">
+                <span class="question-number">Soru {{ question.id }}</span>
+                <span class="question-topic">{{ question.topic }}</span>
+            </div>
+            <h3 class="question-text">{{ question.question }}</h3>
+            <div class="options">
+                {% for option in question.options %}
+                <label class="option-label">
+                    <input type="radio" name="question_{{ question.id }}" value="{{ loop.index0 }}" required>
+                    <span>{{ option }}</span>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="submit-section">
+            <button type="submit" class="btn btn-primary btn-large">Sınavı Gönder</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
